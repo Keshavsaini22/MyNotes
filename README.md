@@ -1,0 +1,2 @@
+# Minenotes
+Minenotes Flutter Application
