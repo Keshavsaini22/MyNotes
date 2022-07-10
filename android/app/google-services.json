@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "80358638655",
+    "project_id": "mine-notes-369",
+    "storage_bucket": "mine-notes-369.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:80358638655:android:24a632fcaa14cd713f648a",
+        "android_client_info": {
+          "package_name": "com.kyp.minenotes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "80358638655-75si1vf9nv17hs1nl4oot05ldj1m7hm8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKv6j2sX2A3gm8ClbHBQx0i-S7hBDoUzA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "80358638655-75si1vf9nv17hs1nl4oot05ldj1m7hm8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "80358638655-irm3ba3isennl01tcbf7d27ee2jic0kc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.kyp.minenotes"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
