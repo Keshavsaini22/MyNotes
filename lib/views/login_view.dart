@@ -6,6 +6,7 @@ import 'package:minenotes/services/auth/auth_exception.dart';
 // import 'package:minenotes/services/auth/auth_service.dart';
 import 'package:minenotes/services/auth/bloc/auth_bloc.dart';
 import 'package:minenotes/services/auth/bloc/auth_event.dart';
+import 'package:minenotes/services/auth/bloc/auth_state.dart';
 import '../utilities/dialog/error_dialog.dart';
 
 class LoginView extends StatefulWidget {
@@ -57,11 +58,22 @@ class _LoginViewState extends State<LoginView> {
             decoration:
                 const InputDecoration(hintText: 'Enter your password here'),
           ),
-          TextButton(
-            onPressed: () async {
-              final email = _email.text;
-              final password = _password.text;
-              try {
+          BlocListener<AuthBloc, AuthState>(
+            listener: (context, state) async {
+              if (state is AuthStateLoggedOut) {
+                if (state.exception is UserNotFoundException) {
+                  await showErrorDialog(context, 'User not found');
+                } else if (state.exception is WrongPasswordAuthException) {
+                  await showErrorDialog(context, 'Wrong credentials');
+                } else if (state.exception is GenericAuthException) {
+                  await showErrorDialog(context, 'Authentication error');
+                }
+              }
+            },
+            child: TextButton(
+              onPressed: () async {
+                final email = _email.text;
+                final password = _password.text;
                 context.read<AuthBloc>().add(
                       AuthEventLogIn(
                         email,
@@ -69,44 +81,46 @@ class _LoginViewState extends State<LoginView> {
                       ),
                     );
                 //During CH-40
-                // await AuthService.firebase().logIn(
-                //   email: email,
-                //   password: password,
-                // );
-                // final user = AuthService.firebase().currentUser;
-                // if (user?.isEmailVerified ?? false) {
-                //   //user's email is verified
-                //   // ignore: use_build_context_synchronously
-                //   Navigator.of(context).pushNamedAndRemoveUntil(
-                //     notesRoute,
-                //     (route) => false,
+                // try {
+                //   await AuthService.firebase().logIn(
+                //     email: email,
+                //     password: password,
                 //   );
-                // } else {
-                //   //user's email is not varified
-                //   // ignore: use_build_context_synchronously
-                //   Navigator.of(context).pushNamedAndRemoveUntil(
-                //     verifyEmailRoute,
-                //     (route) => false,
+                //   final user = AuthService.firebase().currentUser;
+                //   if (user?.isEmailVerified ?? false) {
+                //     //user's email is verified
+                //     // ignore: use_build_context_synchronously
+                //     Navigator.of(context).pushNamedAndRemoveUntil(
+                //       notesRoute,
+                //       (route) => false,
+                //     );
+                //   } else {
+                //     //user's email is not varified
+                //     // ignore: use_build_context_synchronously
+                //     Navigator.of(context).pushNamedAndRemoveUntil(
+                //       verifyEmailRoute,
+                //       (route) => false,
+                //     );
+                //   }
+                // } on UserNotFoundException {
+                //   await showErrorDialog(
+                //     context,
+                //     'User not found',
+                //   );
+                // } on WeakPasswordAuthException {
+                //   await showErrorDialog(
+                //     context,
+                //     'Wrong credentials',
+                //   );
+                // } on GenericAuthException {
+                //   await showErrorDialog(
+                //     context,
+                //     'Authentication Error',
                 //   );
                 // }
-              } on UserNotFoundException {
-                await showErrorDialog(
-                  context,
-                  'User not found',
-                );
-              } on WeakPasswordAuthException {
-                await showErrorDialog(
-                  context,
-                  'Wrong credentials',
-                );
-              } on GenericAuthException {
-                await showErrorDialog(
-                  context,
-                  'Authentication Error',
-                );
-              }
-            },
-            child: const Text('Login'),
+              },
+              child: const Text('Login'),
+            ),
           ),
           TextButton(
             onPressed: () {
