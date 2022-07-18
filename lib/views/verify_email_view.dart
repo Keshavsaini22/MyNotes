@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:minenotes/constants/routes.dart';
-import 'package:minenotes/services/auth/auth_service.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:minenotes/constants/routes.dart';
+// import 'package:minenotes/services/auth/auth_service.dart';
+import 'package:minenotes/services/auth/bloc/auth_bloc.dart';
+import 'package:minenotes/services/auth/bloc/auth_event.dart';
 
 class VerifyEmailView extends StatefulWidget {
   const VerifyEmailView({Key? key}) : super(key: key);
@@ -23,20 +26,26 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
           const Text(
               "If you haven't received a verifiaction email yet, press the button below"),
           TextButton(
-            onPressed: () async {
-              await AuthService.firebase().sendEmailVerification();
+            onPressed: () {
+              context.read<AuthBloc>().add(
+                    const AuthEventSendEmailVerification(),
+                  );
+              // await AuthService.firebase().sendEmailVerification();
             },
             child: const Text('Send email verification'),
           ),
           TextButton(
             onPressed: () async {
-              await AuthService.firebase().logOut();
+              context.read<AuthBloc>().add(
+                    const AuthEventLogOut(),
+                  );
+              // await AuthService.firebase().logOut();
 
-              // ignore: use_build_context_synchronously
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                registerRoute,
-                (route) => false,
-              );
+              // // ignore: use_build_context_synchronously
+              // Navigator.of(context).pushNamedAndRemoveUntil(
+              //   registerRoute,
+              //   (route) => false,
+              // );
             },
             child: const Text('Restart'),
           )
