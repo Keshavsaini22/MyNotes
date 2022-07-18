@@ -7,7 +7,7 @@ import 'package:minenotes/services/auth/auth_exception.dart';
 import 'package:minenotes/services/auth/bloc/auth_bloc.dart';
 import 'package:minenotes/services/auth/bloc/auth_event.dart';
 import 'package:minenotes/services/auth/bloc/auth_state.dart';
-import 'package:minenotes/utilities/dialog/loading_dialog.dart';
+// import 'package:minenotes/utilities/dialog/loading_dialog.dart';
 import '../utilities/dialog/error_dialog.dart';
 
 class LoginView extends StatefulWidget {
@@ -20,7 +20,7 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   late final TextEditingController _email;
   late final TextEditingController _password;
-  CloseDialog? _closedDialogHandle;
+  // CloseDialog? _closedDialogHandle;
 
   @override
   void initState() {
@@ -41,16 +41,16 @@ class _LoginViewState extends State<LoginView> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) async {
         if (state is AuthStateLoggedOut) {
-          final closeDailog = _closedDialogHandle;
-          if (!state.isLoading && closeDailog != null) {
-            closeDailog();
-            _closedDialogHandle = null;
-          } else if (state.isLoading && closeDailog == null) {
-            _closedDialogHandle = showLoadingDialog(
-              context: context,
-              text: 'Loading...',
-            );
-          }
+          // final closeDailog = _closedDialogHandle;
+          // if (!state.isLoading && closeDailog != null) {
+          //   closeDailog();
+          //   _closedDialogHandle = null;
+          // } else if (state.isLoading && closeDailog == null) {
+          //   _closedDialogHandle = showLoadingDialog(
+          //     context: context,
+          //     text: 'Loading...',
+          //   );
+          // }
 
           if (state.exception is UserNotFoundException) {
             await showErrorDialog(context, 'User not found');
