@@ -53,7 +53,8 @@ class _LoginViewState extends State<LoginView> {
           // }
 
           if (state.exception is UserNotFoundException) {
-            await showErrorDialog(context, 'User not found');
+            await showErrorDialog(
+                context, 'Cannot find a user with the entered credentials!');
           } else if (state.exception is WrongPasswordAuthException) {
             await showErrorDialog(context, 'Wrong credentials');
           } else if (state.exception is GenericAuthException) {
@@ -65,86 +66,100 @@ class _LoginViewState extends State<LoginView> {
         appBar: AppBar(
           title: const Text('Login'),
         ),
-        body: Column(
-          children: [
-            TextField(
-              controller: _email,
-              enableSuggestions: false,
-              autocorrect: false,
-              keyboardType: TextInputType.emailAddress,
-              decoration:
-                  const InputDecoration(hintText: 'Enter your email here'),
-            ),
-            TextField(
-              controller: _password,
-              obscureText: true,
-              enableSuggestions: false,
-              autocorrect: false,
-              decoration:
-                  const InputDecoration(hintText: 'Enter your password here'),
-            ),
-            TextButton(
-              onPressed: () async {
-                final email = _email.text;
-                final password = _password.text;
-                context.read<AuthBloc>().add(
-                      AuthEventLogIn(
-                        email,
-                        password,
-                      ),
-                    );
-                //During CH-40
-                // try {
-                //   await AuthService.firebase().logIn(
-                //     email: email,
-                //     password: password,
-                //   );
-                //   final user = AuthService.firebase().currentUser;
-                //   if (user?.isEmailVerified ?? false) {
-                //     //user's email is verified
-                //     // ignore: use_build_context_synchronously
-                //     Navigator.of(context).pushNamedAndRemoveUntil(
-                //       notesRoute,
-                //       (route) => false,
-                //     );
-                //   } else {
-                //     //user's email is not varified
-                //     // ignore: use_build_context_synchronously
-                //     Navigator.of(context).pushNamedAndRemoveUntil(
-                //       verifyEmailRoute,
-                //       (route) => false,
-                //     );
-                //   }
-                // } on UserNotFoundException {
-                //   await showErrorDialog(
-                //     context,
-                //     'User not found',
-                //   );
-                // } on WeakPasswordAuthException {
-                //   await showErrorDialog(
-                //     context,
-                //     'Wrong credentials',
-                //   );
-                // } on GenericAuthException {
-                //   await showErrorDialog(
-                //     context,
-                //     'Authentication Error',
-                //   );
-                // }
-              },
-              child: const Text('Login'),
-            ),
-            TextButton(
-              onPressed: () {
-                context.read<AuthBloc>().add(
-                      const AuthEventShouldRegister(),
-                    );
-                // Navigator.of(context)
-                //     .pushNamedAndRemoveUntil(registerRoute, (route) => false);
-              },
-              child: const Text('Not registerd yet? Register here!'),
-            )
-          ],
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              const Text(
+                'Please log in to your account in order to interact with and create notes!',
+              ),
+              TextField(
+                controller: _email,
+                enableSuggestions: false,
+                autocorrect: false,
+                keyboardType: TextInputType.emailAddress,
+                decoration:
+                    const InputDecoration(hintText: 'Enter your email here'),
+              ),
+              TextField(
+                controller: _password,
+                obscureText: true,
+                enableSuggestions: false,
+                autocorrect: false,
+                decoration:
+                    const InputDecoration(hintText: 'Enter your password here'),
+              ),
+              TextButton(
+                onPressed: () async {
+                  final email = _email.text;
+                  final password = _password.text;
+                  context.read<AuthBloc>().add(
+                        AuthEventLogIn(
+                          email,
+                          password,
+                        ),
+                      );
+                  //During CH-40
+                  // try {
+                  //   await AuthService.firebase().logIn(
+                  //     email: email,
+                  //     password: password,
+                  //   );
+                  //   final user = AuthService.firebase().currentUser;
+                  //   if (user?.isEmailVerified ?? false) {
+                  //     //user's email is verified
+                  //     // ignore: use_build_context_synchronously
+                  //     Navigator.of(context).pushNamedAndRemoveUntil(
+                  //       notesRoute,
+                  //       (route) => false,
+                  //     );
+                  //   } else {
+                  //     //user's email is not varified
+                  //     // ignore: use_build_context_synchronously
+                  //     Navigator.of(context).pushNamedAndRemoveUntil(
+                  //       verifyEmailRoute,
+                  //       (route) => false,
+                  //     );
+                  //   }
+                  // } on UserNotFoundException {
+                  //   await showErrorDialog(
+                  //     context,
+                  //     'User not found',
+                  //   );
+                  // } on WeakPasswordAuthException {
+                  //   await showErrorDialog(
+                  //     context,
+                  //     'Wrong credentials',
+                  //   );
+                  // } on GenericAuthException {
+                  //   await showErrorDialog(
+                  //     context,
+                  //     'Authentication Error',
+                  //   );
+                  // }
+                },
+                child: const Text('Login'),
+              ),
+              TextButton(
+                onPressed: () {
+                  context.read<AuthBloc>().add(
+                        const AuthEventForgotPassword(),
+                      );
+                },
+                child: const Text('I forgot my password'),
+              ),
+              TextButton(
+                onPressed: () {
+                  context.read<AuthBloc>().add(
+                        const AuthEventShouldRegister(),
+                      );
+                  // Navigator.of(context)
+                  //     .pushNamedAndRemoveUntil(registerRoute, (route) => false);
+                },
+                child: const Text('Not registerd yet? Register here!'),
+              )
+            ],
+          ),
         ),
       ),
     );
