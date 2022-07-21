@@ -19,37 +19,39 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
       appBar: AppBar(
         title: const Text('Verify email'),
       ),
-      body: Column(
-        children: [
-          const Text(
-              "We've sent you an email verification.Please open it to verify your account"),
-          const Text(
-              "If you haven't received a verifiaction email yet, press the button below"),
-          TextButton(
-            onPressed: () {
-              context.read<AuthBloc>().add(
-                    const AuthEventSendEmailVerification(),
-                  );
-              // await AuthService.firebase().sendEmailVerification();
-            },
-            child: const Text('Send email verification'),
-          ),
-          TextButton(
-            onPressed: () async {
-              context.read<AuthBloc>().add(
-                    const AuthEventLogOut(),
-                  );
-              // await AuthService.firebase().logOut();
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const Text(
+                "We've sent you an email verification.Please open it to verify your account"),
+            const Text(
+                "If you haven't received a verifiaction email yet, press the button below"),
+            TextButton(
+              onPressed: () {
+                context.read<AuthBloc>().add(
+                      const AuthEventSendEmailVerification(),
+                    );
+                // await AuthService.firebase().sendEmailVerification();
+              },
+              child: const Text('Send email verification'),
+            ),
+            TextButton(
+              onPressed: () async {
+                context.read<AuthBloc>().add(
+                      const AuthEventLogOut(),
+                    );
+                // await AuthService.firebase().logOut();
 
-              // // ignore: use_build_context_synchronously
-              // Navigator.of(context).pushNamedAndRemoveUntil(
-              //   registerRoute,
-              //   (route) => false,
-              // );
-            },
-            child: const Text('Restart'),
-          )
-        ],
+                // // ignore: use_build_context_synchronously
+                // Navigator.of(context).pushNamedAndRemoveUntil(
+                //   registerRoute,
+                //   (route) => false,
+                // );
+              },
+              child: const Text('Restart'),
+            )
+          ],
+        ),
       ),
     );
   }
